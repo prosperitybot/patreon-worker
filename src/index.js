@@ -39,8 +39,8 @@ setInterval(async () => {
         await user.save();
       }
     });
-  }, 60 * 1000);
-});
+  });
+}, 60 * 1000);
 
 process.on('SIGINT', () => {
   console.log('Shutting down nicely...');
