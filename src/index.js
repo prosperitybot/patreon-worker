@@ -22,7 +22,7 @@ setInterval(async () => {
   }).then(async (result) => {
     const data = await result.json();
     const patreonUserIds = data.included.filter((i) => i.type === 'user').map((a) => a.attributes.social_connections.discord.user_id);
-    const noLongerPatron = currentUsers.filter((currentUser) => !patreonUserIds.includes(currentUser.map((u) => u.id.toString())));
+    const noLongerPatron = currentUsers.filter((currentUser) => !patreonUserIds.includes(currentUser.id.toString()));
     const newPatron = patreonUserIds.filter((patreonUser) => !currentUsers.map((currentUser) => currentUser.id.toString()).includes(patreonUser));
     noLongerPatron.forEach(async (user) => {
       user.whitelabelbot.action = 'stop';
