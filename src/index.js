@@ -3,8 +3,9 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
 const Sentry = require('@sentry/node');
-const { WhitelabelBot, User } = require('@prosperitybot/database');
+const { WhitelabelBot, User, setup: setupDatabase } = require('@prosperitybot/database');
 const { Op } = require('sequelize');
+const { sqlLogger } = require('./utils/loggingUtils');
 
 if (process.env.SENTRY_DSN !== '') {
   Sentry.init({
@@ -12,6 +13,8 @@ if (process.env.SENTRY_DSN !== '') {
     tracesSampleRate: 1.0,
   });
 }
+
+setupDatabase(sqlLogger);
 
 setInterval(async () => {
   const currentUsers = await User.findAll({ where: { access_levels: { [Op.substring]: 'WHITELABEL' }, premium_source: 'patreon' }, include: [{ model: WhitelabelBot, required: false }] });
