@@ -11,7 +11,7 @@
     "@sentry/tracing": "^6.17.5",
     "dotenv": "^14.2.0",
     "mariadb": "^2.5.5",
-    "node-fetch": "2",
+    "node-fetch": "3",
     "sequelize": "^6.16.1",
     "winston": "^3.4.0",
     "winston-loki": "^6.0.4"
