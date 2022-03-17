@@ -28,7 +28,9 @@ setInterval(async () => {
     const noLongerPatron = currentUsers.filter((currentUser) => !patreonUserIds.includes(currentUser.id.toString()));
     const newPatron = patreonUserIds.filter((patreonUser) => !currentUsers.map((currentUser) => currentUser.id.toString()).includes(patreonUser));
     noLongerPatron.forEach(async (user) => {
-      user.whitelabelbot.action = 'stop';
+      if (user.whitelabelbot !== undefined) {
+        user.whitelabelbot.action = 'stop';
+      }
       user.access_levels = user.access_levels.splice(user.access_levels.indexOf('WHITELABEL'), 1);
       await user.save();
     });
