@@ -6,7 +6,7 @@
   "author": "Ben Hall <ben@benh.codes>",
   "license": "MIT",
   "dependencies": {
-    "@prosperitybot/database": "^1.7.0",
+    "@prosperitybot/database": "^1.10.0",
     "@sentry/node": "^6.18.2",
     "@sentry/tracing": "^6.18.2",
     "dotenv": "^16.0.0",
