@@ -17,6 +17,21 @@ if (process.env.SENTRY_DSN !== '') {
 setupDatabase(sqlLogger);
 
 setInterval(async () => {
+  const usersToRemove = await User.findAll({ where: { premium_status: true, premium_expiry: { [Op.lt]: Date.now() } }, include: [{ model: WhitelabelBot, required: false }] });
+  usersToRemove.forEach(async (user) => {
+    user.premium_status = false;
+    user.premium_expiry = null;
+    await user.save();
+
+    if (user.whitelabel_bots) {
+      user.whitelabel_bots.forEach(async (bot) => {
+        await bot.destroy();
+      });
+    }
+  });
+}, 60 * 1000);
+
+setInterval(async () => {
   const currentUsers = await User.findAll({ where: { access_levels: { [Op.substring]: 'WHITELABEL' }, premium_source: 'patreon' }, include: [{ model: WhitelabelBot, required: false }] });
   fetch('https://www.patreon.com/api/oauth2/api/campaigns/933696/pledges', {
     headers: {
